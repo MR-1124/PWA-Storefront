@@ -5,22 +5,22 @@ A complete Progressive Web App ecommerce platform with customer storefront and a
 ## 🚀 Features
 
 ### Customer Features
-- �️ **Prodguct Catalog**: Browse products with categories, search, and pagination
-- � **Shoapping Cart**: Add/remove items, quantity management, persistent cart
-- � **dUser Accounts**: Registration, login, profile management
-- � *a*Order Management**: Place orders, view history, track shipments
-- 📍 **Address Book**: Save multiple shipping/billing addresses
-- ⭐ **Product Reviews**: Rate and review purchased products (verified purchases only)
-- � J**PWA Features**: Offline browsing, installable app, push notifications
-- 🔒 **Security**: JWT authentication, secure password hashing
+- **Prodguct Catalog**: Browse products with categories, search, and pagination
+- **Shoapping Cart**: Add/remove items, quantity management, persistent cart
+- **dUser Accounts**: Registration, login, profile management
+- *a*Order Management**: Place orders, view history, track shipments
+- **Address Book**: Save multiple shipping/billing addresses
+- **Product Reviews**: Rate and review purchased products (verified purchases only)
+- J**PWA Features**: Offline browsing, installable app, push notifications
+- **Security**: JWT authentication, secure password hashing
 
 ### Admin Features
-- 📊 **Dashboard**: Overview statistics, recent orders, revenue analytics
-- 🛒 **Order Management**: Update order status, add tracking numbers, view details
-- 👥 **User Management**: View customer information, order history, statistics
-- 📦 **Product Management**: Add/edit/delete products, manage inventory, toggle status
-- 🔍 **Search & Filter**: Advanced search across orders, users, and products
-- 📈 **Analytics**: Order status distribution, revenue tracking
+- **Dashboard**: Overview statistics, recent orders, revenue analytics
+- **Order Management**: Update order status, add tracking numbers, view details
+- **User Management**: View customer information, order history, statistics
+- **Product Management**: Add/edit/delete products, manage inventory, toggle status
+- **Search & Filter**: Advanced search across orders, users, and products
+- **Analytics**: Order status distribution, revenue tracking
 
 ## 🛠️ Tech Stack
 
