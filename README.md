@@ -221,24 +221,6 @@ DB_NAME=pwa_ecommerce
 JWT_SECRET=your_super_secure_production_jwt_secret
 ```
 
-### Build for Production
-```bash
-# Build client
-cd client
-npm run build
-
-# The build folder contains optimized production files
-# Serve these files with your web server (nginx, Apache, etc.)
-```
-
-### Database Migration
-```bash
-# Export development data
-mysqldump -u root -p pwa_ecommerce > backup.sql
-
-# Import to production
-mysql -u production_user -p production_db < backup.sql
-```
 
 ## 🤝 Contributing
 
@@ -248,21 +230,3 @@ mysql -u production_user -p production_db < backup.sql
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-For support and questions:
-- Create an issue in the repository
-- Check the documentation in the `/docs` folder
-- Review the API endpoints and test with provided accounts
-
-## 🎉 Acknowledgments
-
-- React team for the amazing framework
-- Express.js for the robust backend framework
-- MySQL for reliable database management
-- Lucide React for beautiful icons
-- All contributors and testers
