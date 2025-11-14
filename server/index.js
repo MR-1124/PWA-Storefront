@@ -2,9 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const mysql = require('mysql2/promise');
-const fs = require('fs');
-const path = require('path');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
@@ -24,9 +21,7 @@ app.set('trust proxy', 1);
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.FRONTEND_URL || 'https://pwa-storefront.vercel.app'] 
-    : ['http://localhost:3000'],
+  origin: ['http://localhost:3000'],
   credentials: true
 }));
 
@@ -96,60 +91,7 @@ app.use('*', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-// Initialize database on first run
-async function initializeDatabaseIfNeeded() {
-  try {
-    const connection = await mysql.createConnection({
-      host: process.env.DB_HOST || 'localhost',
-      user: process.env.DB_USER || 'root',
-      password: process.env.DB_PASSWORD || '',
-      port: process.env.DB_PORT || 3306,
-      database: process.env.DB_NAME || 'pwa_ecommerce',
-      multipleStatements: true
-    });
-
-    // Check if tables exist
-    const [tables] = await connection.query("SHOW TABLES");
-    
-    if (tables.length === 0) {
-      console.log('No tables found. Initializing database...');
-      
-      // Read and execute schema
-      const schemaPath = path.join(__dirname, 'database/schema.sql');
-      let schema = fs.readFileSync(schemaPath, 'utf8');
-      
-      // Remove CREATE DATABASE and USE statements
-      schema = schema.replace(/CREATE DATABASE IF NOT EXISTS.*?;/gi, '');
-      schema = schema.replace(/USE .*?;/gi, '');
-      
-      await connection.query(schema);
-      console.log('✓ Schema created');
-
-      // Read and execute seeds
-      const seedsPath = path.join(__dirname, 'database/seeds.sql');
-      let seeds = fs.readFileSync(seedsPath, 'utf8');
-      
-      // Remove USE statements
-      seeds = seeds.replace(/USE .*?;/gi, '');
-      
-      await connection.query(seeds);
-      console.log('✓ Sample data inserted');
-      
-      console.log('Database initialization complete!');
-    } else {
-      console.log('Database already initialized');
-    }
-
-    await connection.end();
-  } catch (error) {
-    console.error('Database initialization check failed:', error.message);
-  }
-}
-
-app.listen(PORT, async () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
-  
-  // Initialize database if needed
-  await initializeDatabaseIfNeeded();
 });
