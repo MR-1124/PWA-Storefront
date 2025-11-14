@@ -190,7 +190,7 @@ function Home() {
       </section>
 
       {/* Categories Section */}
-      {categories && (
+      {categories && categories.categories && categories.categories.length > 0 && (
         <section style={{ padding: '60px 0', backgroundColor: '#f8f9fa' }}>
           <div className="container">
             <h2 className="text-center mb-4" style={{ fontSize: '36px', marginBottom: '50px' }}>
@@ -253,11 +253,15 @@ function Home() {
             <div className="loading">
               <div className="spinner"></div>
             </div>
-          ) : (
+          ) : featuredProducts?.products && featuredProducts.products.length > 0 ? (
             <div className="grid grid-4">
-              {featuredProducts?.products.map(product => (
+              {featuredProducts.products.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}
+            </div>
+          ) : (
+            <div className="text-center" style={{ padding: '40px' }}>
+              <p style={{ color: 'var(--text-secondary)' }}>No products available</p>
             </div>
           )}
         </div>
