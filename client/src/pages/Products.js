@@ -129,7 +129,7 @@ function Products() {
                   onChange={(e) => handleFilterChange('category', e.target.value)}
                 >
                   <option value="">All Categories</option>
-                  {categories?.categories.map(category => (
+                  {categories?.categories?.map(category => (
                     <option key={category.id} value={category.id}>
                       {category.name}
                     </option>
