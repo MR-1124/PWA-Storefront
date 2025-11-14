@@ -98,6 +98,33 @@ export function CartProvider({ children }) {
     }
   };
 
+  const updateQuantity = async (productId, quantity) => {
+    if (!isAuthenticated) {
+      toast.error('Please login to update cart');
+      return { success: false };
+    }
+
+    try {
+      // Find the cart item by product ID
+      const cartItem = state.items.find(item => item.product_id === productId);
+      
+      if (!cartItem) {
+        return { success: false, message: 'Item not in cart' };
+      }
+
+      // If quantity is 0, remove the item
+      if (quantity === 0) {
+        return await removeFromCart(cartItem.id);
+      }
+
+      // Otherwise update the quantity
+      return await updateCartItem(cartItem.id, quantity);
+    } catch (error) {
+      const message = error.response?.data?.message || 'Failed to update quantity';
+      return { success: false, message };
+    }
+  };
+
   const removeFromCart = async (cartItemId) => {
     try {
       if (!navigator.onLine) {
@@ -187,6 +214,7 @@ export function CartProvider({ children }) {
     ...state,
     addToCart,
     updateCartItem,
+    updateQuantity,
     removeFromCart,
     clearCart,
     loadCart
