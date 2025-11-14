@@ -26,11 +26,16 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Only redirect if we're not already on login/register page
       const currentPath = window.location.pathname;
-      if (currentPath !== '/login' && currentPath !== '/register') {
+      const isAuthPage = currentPath === '/login' || currentPath === '/register';
+      const isProtectedRoute = currentPath.includes('/admin') || 
+                               currentPath.includes('/profile') || 
+                               currentPath.includes('/orders') ||
+                               currentPath.includes('/checkout');
+      
+      // Only redirect if on a protected route and not already on auth page
+      if (isProtectedRoute && !isAuthPage) {
         localStorage.removeItem('token');
-        // Use replace to avoid adding to history
         window.location.replace('/login');
       }
     }

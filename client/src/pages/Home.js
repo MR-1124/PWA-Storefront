@@ -9,7 +9,11 @@ function Home() {
   const { data: featuredProducts, isLoading } = useQuery(
     'featuredProducts',
     () => api.get('/products/featured/list').then(res => res.data),
-    { staleTime: 5 * 60 * 1000 }
+    { 
+      staleTime: 5 * 60 * 1000,
+      retry: 1,
+      refetchOnWindowFocus: false
+    }
   );
 
   const { data: categories } = useQuery(
@@ -17,7 +21,8 @@ function Home() {
     () => api.get('/categories').then(res => res.data),
     { 
       staleTime: 10 * 60 * 1000,
-      retry: 2,
+      retry: 1,
+      refetchOnWindowFocus: false,
       onError: (error) => {
         console.error('Failed to fetch categories:', error);
       }
