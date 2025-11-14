@@ -180,7 +180,16 @@ function Products() {
                 borderRadius: '4px'
               }}>
                 <span>
-                  Showing {productsData?.products.length || 0} of {productsData?.pagination.total || 0} products
+                  {filters.category || filters.search ? (
+                    <>
+                      Showing {productsData?.products.length || 0} of {productsData?.pagination.total || 0} filtered 
+                      {productsData?.pagination.totalProducts && 
+                        ` (${productsData.pagination.totalProducts} total products)`
+                      }
+                    </>
+                  ) : (
+                    `Showing ${productsData?.products.length || 0} of ${productsData?.pagination.total || 0} products`
+                  )}
                 </span>
                 <span>
                   Page {productsData?.pagination.page || 1} of {productsData?.pagination.pages || 1}

@@ -54,7 +54,7 @@ router.get('/', async (req, res) => {
 
     const [products] = await db.execute(productsQuery, params);
 
-    // Get total count
+    // Get filtered count
     const countQuery = `
       SELECT COUNT(*) as total
       FROM products p
@@ -63,6 +63,14 @@ router.get('/', async (req, res) => {
 
     const [countResult] = await db.execute(countQuery, params);
     const total = countResult[0].total;
+    
+    // Get total products count (unfiltered)
+    const [totalCountResult] = await db.execute(`
+      SELECT COUNT(*) as total
+      FROM products p
+      WHERE p.is_active = TRUE
+    `);
+    const totalProducts = totalCountResult[0].total;
 
     // Get ratings for products
     let ratingsMap = {};
@@ -99,6 +107,7 @@ router.get('/', async (req, res) => {
         page,
         limit,
         total,
+        totalProducts,
         pages: Math.ceil(total / limit)
       }
     });
