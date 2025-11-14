@@ -22,47 +22,21 @@
     <div id="root"></div>
     
     <script>
-      // Register service worker with better error handling
+      // Service worker disabled temporarily to prevent refresh issues
+      // Uncomment to re-enable PWA features
+      /*
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js', { scope: '/' })
             .then((registration) => {
               console.log('SW registered: ', registration);
-              
-              // Handle updates - but don't auto-reload
-              registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                newWorker.addEventListener('statechange', () => {
-                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    // New service worker available, but don't force reload
-                    console.log('New content available. Refresh to update.');
-                  }
-                });
-              });
             })
             .catch((error) => {
               console.error('SW registration failed:', error);
             });
-          
-          // Handle service worker messages
-          navigator.serviceWorker.addEventListener('message', (event) => {
-            if (event.data && event.data.type === 'CACHE_UPDATED') {
-              console.log('Cache updated:', event.data.url);
-            }
-          });
-        });
-        
-        // Handle online/offline events
-        window.addEventListener('online', () => {
-          console.log('Back online');
-          document.body.classList.remove('offline');
-        });
-        
-        window.addEventListener('offline', () => {
-          console.log('Gone offline');
-          document.body.classList.add('offline');
         });
       }
+      */
     </script>
   </body>
 </html>

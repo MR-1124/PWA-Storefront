@@ -70,6 +70,7 @@ export function AuthProvider({ children }) {
       const response = await api.get('/auth/me');
       dispatch({ type: 'LOAD_USER', payload: response.data.user });
     } catch (error) {
+      console.log('Auth check failed - user not logged in');
       dispatch({ type: 'AUTH_ERROR' });
     }
   };
