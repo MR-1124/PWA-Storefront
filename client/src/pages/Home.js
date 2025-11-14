@@ -15,7 +15,13 @@ function Home() {
   const { data: categories } = useQuery(
     'categories',
     () => api.get('/categories').then(res => res.data),
-    { staleTime: 10 * 60 * 1000 }
+    { 
+      staleTime: 10 * 60 * 1000,
+      retry: 2,
+      onError: (error) => {
+        console.error('Failed to fetch categories:', error);
+      }
+    }
   );
 
   return (
