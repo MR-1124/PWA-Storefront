@@ -115,13 +115,22 @@ async function initializeDatabaseIfNeeded() {
       
       // Read and execute schema
       const schemaPath = path.join(__dirname, 'database/schema.sql');
-      const schema = fs.readFileSync(schemaPath, 'utf8');
+      let schema = fs.readFileSync(schemaPath, 'utf8');
+      
+      // Remove CREATE DATABASE and USE statements
+      schema = schema.replace(/CREATE DATABASE IF NOT EXISTS.*?;/gi, '');
+      schema = schema.replace(/USE .*?;/gi, '');
+      
       await connection.query(schema);
       console.log('✓ Schema created');
 
       // Read and execute seeds
       const seedsPath = path.join(__dirname, 'database/seeds.sql');
-      const seeds = fs.readFileSync(seedsPath, 'utf8');
+      let seeds = fs.readFileSync(seedsPath, 'utf8');
+      
+      // Remove USE statements
+      seeds = seeds.replace(/USE .*?;/gi, '');
+      
       await connection.query(seeds);
       console.log('✓ Sample data inserted');
       
