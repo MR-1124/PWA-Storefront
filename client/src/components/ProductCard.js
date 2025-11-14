@@ -1,12 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Star, ShoppingCart } from 'lucide-react';
+import { Star, ShoppingCart, Plus, Minus } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import toast from 'react-hot-toast';
 import { formatPrice } from '../utils/currency';
 
 function ProductCard({ product }) {
-  const { addToCart } = useCart();
+  const { addToCart, updateQuantity, items } = useCart();
+  
+  // Check if product is in cart
+  const cartItem = items.find(item => item.product_id === product.id);
+  const quantityInCart = cartItem ? cartItem.quantity : 0;
 
   const handleAddToCart = async (e) => {
     e.preventDefault();
@@ -15,6 +19,33 @@ function ProductCard({ product }) {
     const result = await addToCart(product.id, 1);
     if (!result.success && result.message) {
       toast.error(result.message);
+    }
+  };
+
+  const handleIncrement = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const result = await updateQuantity(product.id, quantityInCart + 1);
+    if (!result.success && result.message) {
+      toast.error(result.message);
+    }
+  };
+
+  const handleDecrement = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (quantityInCart > 1) {
+      const result = await updateQuantity(product.id, quantityInCart - 1);
+      if (!result.success && result.message) {
+        toast.error(result.message);
+      }
+    } else {
+      const result = await updateQuantity(product.id, 0);
+      if (!result.success && result.message) {
+        toast.error(result.message);
+      }
     }
   };
 
@@ -165,19 +196,62 @@ function ProductCard({ product }) {
             </span>
           </div>
           
-          <button
-            onClick={handleAddToCart}
-            className="btn btn-primary btn-sm"
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '6px',
-              padding: '8px 16px'
-            }}
-          >
-            <ShoppingCart size={16} />
-            Add
-          </button>
+          {quantityInCart > 0 ? (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              backgroundColor: 'var(--surface)',
+              borderRadius: 'var(--radius)',
+              padding: '4px',
+              border: '1px solid var(--border)'
+            }}>
+              <button
+                onClick={handleDecrement}
+                className="btn btn-sm"
+                style={{
+                  padding: '6px',
+                  minWidth: 'auto',
+                  backgroundColor: 'white',
+                  border: '1px solid var(--border)'
+                }}
+              >
+                <Minus size={14} />
+              </button>
+              <span style={{
+                minWidth: '24px',
+                textAlign: 'center',
+                fontWeight: 600,
+                fontSize: '14px'
+              }}>
+                {quantityInCart}
+              </span>
+              <button
+                onClick={handleIncrement}
+                className="btn btn-sm btn-primary"
+                style={{
+                  padding: '6px',
+                  minWidth: 'auto'
+                }}
+              >
+                <Plus size={14} />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              className="btn btn-primary btn-sm"
+              style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '6px',
+                padding: '8px 16px'
+              }}
+            >
+              <ShoppingCart size={16} />
+              Add
+            </button>
+          )}
         </div>
 
         {/* Stock Status */}
